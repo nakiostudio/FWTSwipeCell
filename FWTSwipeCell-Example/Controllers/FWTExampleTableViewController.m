@@ -19,6 +19,22 @@
 
 @synthesize entryDate;
 
+- (NSString*)dateTime
+{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"HH:mm:ss"];
+    
+    return [dateFormatter stringFromDate:self.entryDate];
+}
+
+- (NSString*)dateDay
+{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateStyle:NSDateFormatterFullStyle];
+    
+    return [dateFormatter stringFromDate:self.entryDate];
+}
+
 @end
 
 
@@ -148,7 +164,8 @@ typedef enum{
         cell = [[FWTSwipeCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellIdentifier];
     }
     
-    cell.textLabel.text = cellObject.debugDescription;
+    cell.textLabel.text = [cellObject dateTime];
+    cell.detailTextLabel.text = [cellObject dateDay];
     
     return cell;
 }
