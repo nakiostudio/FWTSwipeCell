@@ -15,13 +15,13 @@ typedef enum {
     FWTSwipeCellActionArchiveRow,
     FWTSwipeCellActionDeleteRow,
     FWTSwipeCellActionWillBeginDragging
-}FWTSwipeCellActionsEnum;
+}FWTSwipeCellActions;
 
-typedef void (^FWTSwipeCellActionBlock)(FWTSwipeCell *cell, FWTSwipeCellActionsEnum action);
+typedef void (^FWTSwipeCellActionBlock)(FWTSwipeCell *cell, FWTSwipeCellActions action);
 
 @interface FWTSwipeCell : UITableViewCell
 
-@property (nonatomic, strong) UIButton *archiveButton;
+@property (nonatomic, strong) UIButton *additionalButton;
 @property (nonatomic, strong) FWTSwipeCellActionBlock actionBlock;
 
 - (void)restoreScroll;

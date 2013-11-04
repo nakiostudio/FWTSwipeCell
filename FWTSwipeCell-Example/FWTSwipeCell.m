@@ -8,10 +8,13 @@
 
 #import "FWTSwipeCell.h"
 
-#define kOptionsWidth               180
-#define kLabelsLateralMargins       15
-#define kTitleTopMargin             10
-#define kLabelMinHeight             24
+CGFloat kOptionsWidth                       =       180.f;
+CGFloat kLabelsLateralMargins               =       15.f;
+CGFloat kTitleTopMargin                     =       10.f;
+CGFloat kLabelMinHeight                     =       24.f;
+
+NSString *kDeleteButtonLabel                =       @"Delete";
+NSString *kAdditionalActionButtonLabel      =       @"Archive";
 
 @interface FWTSwipeCell () <UIScrollViewDelegate>
 
@@ -42,7 +45,7 @@
     self.scrollView.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height - 1.0f);
     self.scrollViewButtonView.frame = CGRectMake(self.frame.size.width - kOptionsWidth, 0, kOptionsWidth, self.frame.size.height - 1.0f);
     
-    self.archiveButton.frame = CGRectMake(0, 0, kOptionsWidth*0.5f, self.frame.size.height);
+    self.additionalButton.frame = CGRectMake(0, 0, kOptionsWidth*0.5f, self.frame.size.height);
     self.deleteButton.frame = CGRectMake(kOptionsWidth*0.5f, 0, kOptionsWidth*0.5f, self.frame.size.height);
     
     self.backgroundView = [UIView new];
@@ -83,8 +86,6 @@
     } else {
         changes();
     }
-    
-    
 }
 
 -(void)setEditing:(BOOL)editing animated:(BOOL)animated
@@ -134,9 +135,11 @@
 #pragma mark - UIScrollViewDelegate Methods
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
-    
     [self setSeparatorInset:UIEdgeInsetsZero];
-    self.actionBlock(self, FWTSwipeCellActionWillBeginDragging);
+    
+    if (self.actionBlock){
+        self.actionBlock(self, FWTSwipeCellActionWillBeginDragging);
+    }
 }
 
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
@@ -193,21 +196,21 @@
     if (self->_scrollViewButtonView == nil){
         self->_scrollViewButtonView = [[UIView alloc] initWithFrame:CGRectMake(self.frame.size.width - kOptionsWidth, 0, kOptionsWidth, self.frame.size.height)];
         
-        UIButton *archiveButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        archiveButton.backgroundColor = [UIColor lightGrayColor];
-        archiveButton.frame = CGRectMake(0, 0, kOptionsWidth*0.5f, self.frame.size.height);
-        archiveButton.autoresizesSubviews = UIViewAutoresizingFlexibleHeight;
-        [archiveButton setTitle:NSLocalizedString(@"SWIPE_CELL_OPTION_ARCHIVE", @"") forState:UIControlStateNormal];
-        [archiveButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [archiveButton addTarget:self action:@selector(_userPressedArchiveButton:) forControlEvents:UIControlEventTouchUpInside];
-        [self->_scrollViewButtonView addSubview:archiveButton];
-        self->_archiveButton = archiveButton;
+        UIButton *additionalButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        additionalButton.backgroundColor = [UIColor lightGrayColor];
+        additionalButton.frame = CGRectMake(0, 0, kOptionsWidth*0.5f, self.frame.size.height);
+        additionalButton.autoresizesSubviews = UIViewAutoresizingFlexibleHeight;
+        [additionalButton setTitle:kAdditionalActionButtonLabel forState:UIControlStateNormal];
+        [additionalButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [additionalButton addTarget:self action:@selector(_userPressedArchiveButton:) forControlEvents:UIControlEventTouchUpInside];
+        [self->_scrollViewButtonView addSubview:additionalButton];
+        self->_additionalButton = additionalButton;
         
         UIButton *deleteButton = [UIButton buttonWithType:UIButtonTypeCustom];
         deleteButton.backgroundColor = [UIColor redColor];
         deleteButton.frame = CGRectMake(kOptionsWidth*0.5f, 0, kOptionsWidth*0.5f, self.frame.size.height);
         deleteButton.autoresizesSubviews = UIViewAutoresizingFlexibleHeight;
-        [deleteButton setTitle:NSLocalizedString(@"SWIPE_CELL_OPTION_DELETE", @"") forState:UIControlStateNormal];
+        [deleteButton setTitle:kDeleteButtonLabel forState:UIControlStateNormal];
         [deleteButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [deleteButton addTarget:self action:@selector(_userPressedDeleteButton:) forControlEvents:UIControlEventTouchUpInside];
         [self->_scrollViewButtonView addSubview:deleteButton];
