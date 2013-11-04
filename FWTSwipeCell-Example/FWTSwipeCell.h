@@ -12,7 +12,7 @@
 
 typedef enum {
     FWTSwipeCellActionSelectRow = 0,
-    FWTSwipeCellActionArchiveRow,
+    FWTSwipeCellActionAdditionalRow,
     FWTSwipeCellActionDeleteRow,
     FWTSwipeCellActionWillBeginDragging
 }FWTSwipeCellActions;

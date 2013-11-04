@@ -114,7 +114,7 @@ NSString *kAdditionalActionButtonLabel      =       @"Archive";
 -(void)_userPressedArchiveButton:(id)sender
 {
     if (self.actionBlock != nil){
-        self.actionBlock(self, FWTSwipeCellActionArchiveRow);
+        self.actionBlock(self, FWTSwipeCellActionAdditionalRow);
     }
     
     [self.scrollView setContentOffset:CGPointZero animated:YES];
