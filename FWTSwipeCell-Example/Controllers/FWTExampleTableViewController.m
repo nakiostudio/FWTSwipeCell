@@ -7,6 +7,7 @@
 //
 
 #import "FWTExampleTableViewController.h"
+#import "FWTSwipeCell.h"
 
 @interface FWTExampleObject : NSObject
 
@@ -22,7 +23,12 @@
 
 
 
-NSString * kNavigationBarTitleText = @"FWTSwipeCell";
+NSString *kNavigationBarTitleText       =       @"FWTSwipeCell";
+NSString *kUnarchiveSectionTitle        =       @"Unarchived";
+NSString *kArchiveSectionTitle          =       @"Archived";
+
+CGFloat kSectionHeaderHeight            =       30.f;
+CGFloat kRowHeight                      =       52.f;
 
 typedef enum{
     FWTExampleTableViewUnarchivedSection = 0,
@@ -109,16 +115,37 @@ typedef enum{
     }
 }
 
-#pragma mark - UITableViewDelegate methods
+- (NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    switch (section) {
+        case FWTExampleTableViewUnarchivedSection:
+            return kUnarchiveSectionTitle;
+        case FWTExampleTableViewArchivedSection:
+            return kArchiveSectionTitle;
+        default:
+            return nil;
+    }
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return ([self tableView:tableView numberOfRowsInSection:section] > 0 ? 30.f : 0.f);
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return kRowHeight;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     FWTExampleObject *cellObject = [self _objectForRowAtIndexPath:indexPath];
     
-    NSString *cellIdentifier = NSStringFromClass([UITableViewCell class]);
+    NSString *cellIdentifier = NSStringFromClass([FWTSwipeCell class]);
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     
     if (cell == nil){
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellIdentifier];
+        cell = [[FWTSwipeCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellIdentifier];
     }
     
     cell.textLabel.text = cellObject.debugDescription;
