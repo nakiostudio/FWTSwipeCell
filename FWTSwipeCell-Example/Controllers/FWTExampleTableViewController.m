@@ -39,7 +39,7 @@
 
 
 
-NSString *kNavigationBarTitleText       =       @"FWTSwipeCell";
+NSString *kNavigationBarTitleText       =       @"FWTSwipeCell Example";
 NSString *kUnarchiveSectionTitle        =       @"Unarchived";
 NSString *kArchiveSectionTitle          =       @"Archived";
 

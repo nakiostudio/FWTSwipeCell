@@ -114,10 +114,10 @@
 			isa = PBXGroup;
 			children = (
 				C1A39C8A182843C40053D94A /* Controllers */,
-				C1A39C6A182843B00053D94A /* FWTAppDelegate.h */,
-				C1A39C6B182843B00053D94A /* FWTAppDelegate.m */,
 				C1A39C8E182844370053D94A /* FWTSwipeCell.h */,
 				C1A39C8F182844370053D94A /* FWTSwipeCell.m */,
+				C1A39C6A182843B00053D94A /* FWTAppDelegate.h */,
+				C1A39C6B182843B00053D94A /* FWTAppDelegate.m */,
 				C1A39C6D182843B00053D94A /* Images.xcassets */,
 				C1A39C62182843B00053D94A /* Supporting Files */,
 			);
