@@ -19,6 +19,8 @@
 		C1A39C77182843B00053D94A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1A39C5F182843B00053D94A /* UIKit.framework */; };
 		C1A39C7F182843B00053D94A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C1A39C7D182843B00053D94A /* InfoPlist.strings */; };
 		C1A39C81182843B00053D94A /* FWTSwipeCell_ExampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C1A39C80182843B00053D94A /* FWTSwipeCell_ExampleTests.m */; };
+		C1A39C8D182843ED0053D94A /* FWTExampleTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C1A39C8C182843ED0053D94A /* FWTExampleTableViewController.m */; };
+		C1A39C90182844370053D94A /* FWTSwipeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C1A39C8F182844370053D94A /* FWTSwipeCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +50,10 @@
 		C1A39C7C182843B00053D94A /* FWTSwipeCell-ExampleTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "FWTSwipeCell-ExampleTests-Info.plist"; sourceTree = "<group>"; };
 		C1A39C7E182843B00053D94A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		C1A39C80182843B00053D94A /* FWTSwipeCell_ExampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FWTSwipeCell_ExampleTests.m; sourceTree = "<group>"; };
+		C1A39C8B182843ED0053D94A /* FWTExampleTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FWTExampleTableViewController.h; path = Controllers/FWTExampleTableViewController.h; sourceTree = "<group>"; };
+		C1A39C8C182843ED0053D94A /* FWTExampleTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FWTExampleTableViewController.m; path = Controllers/FWTExampleTableViewController.m; sourceTree = "<group>"; };
+		C1A39C8E182844370053D94A /* FWTSwipeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWTSwipeCell.h; sourceTree = "<group>"; };
+		C1A39C8F182844370053D94A /* FWTSwipeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWTSwipeCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,8 +113,11 @@
 		C1A39C61182843B00053D94A /* FWTSwipeCell-Example */ = {
 			isa = PBXGroup;
 			children = (
+				C1A39C8A182843C40053D94A /* Controllers */,
 				C1A39C6A182843B00053D94A /* FWTAppDelegate.h */,
 				C1A39C6B182843B00053D94A /* FWTAppDelegate.m */,
+				C1A39C8E182844370053D94A /* FWTSwipeCell.h */,
+				C1A39C8F182844370053D94A /* FWTSwipeCell.m */,
 				C1A39C6D182843B00053D94A /* Images.xcassets */,
 				C1A39C62182843B00053D94A /* Supporting Files */,
 			);
@@ -142,6 +151,15 @@
 				C1A39C7D182843B00053D94A /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		C1A39C8A182843C40053D94A /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				C1A39C8B182843ED0053D94A /* FWTExampleTableViewController.h */,
+				C1A39C8C182843ED0053D94A /* FWTExampleTableViewController.m */,
+			);
+			name = Controllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -241,6 +259,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				C1A39C6C182843B00053D94A /* FWTAppDelegate.m in Sources */,
+				C1A39C8D182843ED0053D94A /* FWTExampleTableViewController.m in Sources */,
+				C1A39C90182844370053D94A /* FWTSwipeCell.m in Sources */,
 				C1A39C68182843B00053D94A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
