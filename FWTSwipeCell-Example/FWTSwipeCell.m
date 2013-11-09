@@ -60,6 +60,7 @@ secButtonCreationBlock:(FWTSwipeCellOnButtonCreationBlock)secondaryButtonCreatio
     self.backgroundView = [UIView new];
 }
 
+#pragma mark - Public methods
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
     [super setSelected:selected animated:animated];
@@ -161,8 +162,6 @@ secButtonCreationBlock:(FWTSwipeCellOnButtonCreationBlock)secondaryButtonCreatio
         NSLog(@"FWTSwipeCellSelectionBlock must be set");
     }
 }
-
-#pragma mark - Public methods
 
 #pragma mark - UIScrollViewDelegate Methods
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
