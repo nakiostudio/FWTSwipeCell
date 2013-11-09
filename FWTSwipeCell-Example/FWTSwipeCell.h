@@ -31,7 +31,7 @@ typedef UIButton * (^FWTSwipeCellOnButtonCreationBlock)(UIButton *inputButton);
       creationBlock:(FWTSwipeCellOnButtonCreationBlock)primaryButtonCreationBlock
 secondaryCreationBlock:(FWTSwipeCellOnButtonCreationBlock)secondaryButtonCreationBlock;
 
-- (void)restoreScroll;
+- (void)restoreContentScrollViewOffset;
 
 @end
 

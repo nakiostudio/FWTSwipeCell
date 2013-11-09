@@ -102,7 +102,7 @@ NSString *const kSecondaryActionButtonDefaultLabel      =       @"Archive";
     self.scrollViewButtonView.hidden = editing;
 }
 
--(void)restoreScroll
+-(void)restoreContentScrollViewOffset
 {
     [self.scrollView setContentOffset:CGPointZero animated:YES];
 }
@@ -117,7 +117,7 @@ NSString *const kSecondaryActionButtonDefaultLabel      =       @"Archive";
         NSLog(@"FWTSwipeCellPrimaryActionBlock must be set");
     }
     
-    [self.scrollView setContentOffset:CGPointZero animated:YES];
+    [self restoreContentScrollViewOffset];
 }
 
 -(void)_secondaryActionButtonTapped:(id)sender
@@ -129,7 +129,7 @@ NSString *const kSecondaryActionButtonDefaultLabel      =       @"Archive";
         NSLog(@"FWTSwipeCellSecondaryActionBlock must be set");
     }
     
-    [self.scrollView setContentOffset:CGPointZero animated:YES];
+    [self restoreContentScrollViewOffset];
 }
 
 - (void)_contentTapped:(id)sender
@@ -210,26 +210,6 @@ NSString *const kSecondaryActionButtonDefaultLabel      =       @"Archive";
 {
     if (self->_scrollViewButtonView == nil){
         self->_scrollViewButtonView = [[UIView alloc] initWithFrame:CGRectMake(self.frame.size.width - kOptionsWidth, 0, kOptionsWidth, self.frame.size.height)];
-        
-        UIButton *secondaryButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        secondaryButton.backgroundColor = [UIColor lightGrayColor];
-        secondaryButton.frame = CGRectMake(0, 0, kOptionsWidth*0.5f, self.frame.size.height);
-        secondaryButton.autoresizesSubviews = UIViewAutoresizingFlexibleHeight;
-        [secondaryButton setTitle:kSecondaryActionButtonDefaultLabel forState:UIControlStateNormal];
-        [secondaryButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [secondaryButton addTarget:self action:@selector(_secondaryActionButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-        [self->_scrollViewButtonView addSubview:secondaryButton];
-        self->_secondaryActionButton = secondaryButton;
-        
-        UIButton *primaryButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        primaryButton.backgroundColor = [UIColor redColor];
-        primaryButton.frame = CGRectMake(kOptionsWidth*0.5f, 0, kOptionsWidth*0.5f, self.frame.size.height);
-        primaryButton.autoresizesSubviews = UIViewAutoresizingFlexibleHeight;
-        [primaryButton setTitle:kPrimaryActionButtonDefaultLabel forState:UIControlStateNormal];
-        [primaryButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [primaryButton addTarget:self action:@selector(_primaryActionButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-        [self->_scrollViewButtonView addSubview:primaryButton];
-        self->_primaryActionButton = primaryButton;
     }
     
     if (self->_scrollViewButtonView.superview == nil){
@@ -237,6 +217,44 @@ NSString *const kSecondaryActionButtonDefaultLabel      =       @"Archive";
     }
     
     return self->_scrollViewButtonView;
+}
+
+- (UIButton*)primaryActionButton
+{
+    if (self->_primaryActionButton == nil){
+        self->_primaryActionButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        self->_primaryActionButton.backgroundColor = [UIColor redColor];
+        self->_primaryActionButton.frame = CGRectMake(kOptionsWidth*0.5f, 0, kOptionsWidth*0.5f, self.frame.size.height);
+        self->_primaryActionButton.autoresizesSubviews = UIViewAutoresizingFlexibleHeight;
+        [self->_primaryActionButton setTitle:kPrimaryActionButtonDefaultLabel forState:UIControlStateNormal];
+        [self->_primaryActionButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [self->_primaryActionButton addTarget:self action:@selector(_primaryActionButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    
+    if (self->_primaryActionButton.superview == nil){
+        [self.scrollViewButtonView addSubview:self->_primaryActionButton];
+    }
+
+    return self->_primaryActionButton;
+}
+
+- (UIButton*)secondaryActionButton
+{
+    if (self->_secondaryActionButton == nil){
+        self->_secondaryActionButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        self->_secondaryActionButton.backgroundColor = [UIColor lightGrayColor];
+        self->_secondaryActionButton.frame = CGRectMake(0, 0, kOptionsWidth*0.5f, self.frame.size.height);
+        self->_secondaryActionButton.autoresizesSubviews = UIViewAutoresizingFlexibleHeight;
+        [self->_secondaryActionButton setTitle:kSecondaryActionButtonDefaultLabel forState:UIControlStateNormal];
+        [self->_secondaryActionButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [self->_secondaryActionButton addTarget:self action:@selector(_secondaryActionButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    
+    if (self->_secondaryActionButton.superview == nil){
+        [self.scrollViewButtonView addSubview:self->_secondaryActionButton];
+    }
+    
+    return self->_secondaryActionButton;
 }
 
 @end
