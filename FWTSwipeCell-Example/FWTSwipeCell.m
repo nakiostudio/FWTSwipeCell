@@ -65,34 +65,37 @@ secButtonCreationBlock:(FWTSwipeCellOnButtonCreationBlock)secondaryButtonCreatio
 {
     [super setSelected:selected animated:animated];
     
-    if (selected && !self.editing){
+    if (!self.editing){
         self.scrollViewButtonView.alpha = 0.f;
     }
-    else if (!selected && !self.editing){
-        self.scrollViewButtonView.alpha = 1.f;
-    }
     
-    void (^changes)(void) = ^void(void) {
+    void (^changes)(void) = ^void(void){
         if (selected && !self.editing){
-            self.scrollViewButtonView.backgroundColor = [UIColor lightGrayColor];
+            self.contentView.backgroundColor = [UIColor lightGrayColor];
             self.scrollView.scrollEnabled = NO;
         }
         else if (selected && self.editing){
-            self.scrollViewButtonView.backgroundColor = [UIColor lightGrayColor];
+            self.contentView.backgroundColor = [UIColor lightGrayColor];
             self.scrollView.scrollEnabled = NO;
         }
         else if (!selected && self.editing){
-            self.scrollViewButtonView.backgroundColor = [UIColor whiteColor];
+            self.contentView.backgroundColor = [UIColor whiteColor];
             self.scrollView.scrollEnabled = NO;
         }
         else{
-            self.scrollViewButtonView.backgroundColor = [UIColor whiteColor];
+            self.contentView.backgroundColor = [UIColor whiteColor];
             self.scrollView.scrollEnabled = YES;
         }
     };
     
+    void (^completion)(BOOL finished) = ^void(BOOL finished){
+        if (!selected || self.editing){
+            self.scrollViewButtonView.alpha = 1.f;
+        }
+    };
+    
     if (animated) {
-        [UIView animateWithDuration:0.3f animations:changes];
+        [UIView animateWithDuration:0.3f animations:changes completion:completion];
     } else {
         changes();
     }
@@ -104,6 +107,7 @@ secButtonCreationBlock:(FWTSwipeCellOnButtonCreationBlock)secondaryButtonCreatio
     
     self.scrollView.scrollEnabled = !self.editing;
     self.scrollViewButtonView.hidden = editing;
+    self.scrollViewButtonView.alpha = 1.f;
 }
 
 -(void)restoreContentScrollViewOffset
@@ -161,12 +165,15 @@ secButtonCreationBlock:(FWTSwipeCellOnButtonCreationBlock)secondaryButtonCreatio
     else{
         NSLog(@"FWTSwipeCellSelectionBlock must be set");
     }
+    
+    [self restoreContentScrollViewOffset];
 }
 
 #pragma mark - UIScrollViewDelegate Methods
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
     [self setSeparatorInset:UIEdgeInsetsZero];
+    [self.scrollViewButtonView setAlpha:1.f];
     
     if (self.delegate != nil){
         [self.delegate swipeCellWillBeginDragging:self];
@@ -246,15 +253,12 @@ secButtonCreationBlock:(FWTSwipeCellOnButtonCreationBlock)secondaryButtonCreatio
     }
     
     if (self->_scrollView.superview == nil){
-        
         [self.contentView removeFromSuperview];
         [self.contentView setBackgroundColor:[UIColor whiteColor]];
         UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(_contentTapped:)];
         [self.contentView addGestureRecognizer:tapGestureRecognizer];
         
-        
         [self->_scrollView addSubview:self.contentView];
-        
         [self addSubview:self->_scrollView];
     }
     

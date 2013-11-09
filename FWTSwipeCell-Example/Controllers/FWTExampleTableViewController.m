@@ -39,7 +39,7 @@
 
 
 
-NSString * const kNavigationBarTitleText        =       @"FWTSwipeCell Example";
+NSString * const kNavigationBarTitleText        =       @"FWTSwipeCell";
 NSString * const kUnarchiveSectionTitle         =       @"Unarchived";
 NSString * const kArchiveSectionTitle           =       @"Archived";
 
@@ -163,6 +163,9 @@ typedef enum{
     if (cell == nil){
         cell = [[FWTSwipeCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellIdentifier];
         [cell setDelegate:self];
+        [cell setSelectionBlock:[self _swipeCellSelectionBlock]];
+        [cell setPrimaryActionBlock:[self _swipeCellPrimaryActionBlock]];
+        [cell setSecondaryActionBlock:[self _swipeCellSecondaryActionBlock]];
     }
     
     [cell.textLabel setText:[cellObject dateTime]];
@@ -174,6 +177,18 @@ typedef enum{
                           isPrimaryActionButton:NO];
     
     return cell;
+}
+
+#pragma mark - UITableViewDelegate methods
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSLog(@"Row selected");
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
 }
 
 #pragma mark - FWTSwipeCellDelegate methods
@@ -201,6 +216,75 @@ typedef enum{
     }
     
     return self->_archivedEntries;
+}
+
+- (FWTSwipeCellSelectionBlock)_swipeCellSelectionBlock
+{
+    __weak FWTExampleTableViewController *weakSelf = self;
+    
+    FWTSwipeCellSelectionBlock selectionBlock = ^(FWTSwipeCell *cell){
+        NSIndexPath *selectedIndexPath = [weakSelf.tableView indexPathForCell:cell];
+        if (!cell.selected){
+            [weakSelf.tableView selectRowAtIndexPath:selectedIndexPath animated:YES scrollPosition:UITableViewScrollPositionNone];
+        }
+        else if (cell.selected){
+            [weakSelf.tableView deselectRowAtIndexPath:selectedIndexPath animated:YES];
+        }
+    };
+    
+    return selectionBlock;
+}
+
+- (FWTSwipeCellPrimaryActionBlock)_swipeCellPrimaryActionBlock
+{
+    __weak FWTExampleTableViewController *weakSelf = self;
+    
+    FWTSwipeCellPrimaryActionBlock primaryActionBlock = ^(FWTSwipeCell *cell){
+        NSIndexPath *cellIndexPath = [weakSelf.tableView indexPathForCell:cell];
+    
+        if (cellIndexPath.section == FWTExampleTableViewUnarchivedSection){
+            [weakSelf.unarchivedEntries removeObjectAtIndex:cellIndexPath.row];
+        }
+        else{
+            [weakSelf.archivedEntries removeObjectAtIndex:cellIndexPath.row];
+        }
+        
+        [weakSelf.tableView deleteRowsAtIndexPaths:@[cellIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    };
+    
+    return primaryActionBlock;
+}
+
+- (FWTSwipeCellSecondaryActionBlock)_swipeCellSecondaryActionBlock
+{
+    __weak FWTExampleTableViewController *weakSelf = self;
+    
+    FWTSwipeCellSecondaryActionBlock secondaryActionBlock = ^(FWTSwipeCell *cell){
+        NSIndexPath *cellIndexPath = [weakSelf.tableView indexPathForCell:cell];
+        
+        id movedObject;
+        if (cellIndexPath.section == FWTExampleTableViewUnarchivedSection){
+            movedObject = weakSelf.unarchivedEntries[cellIndexPath.row];
+            [weakSelf.unarchivedEntries removeObjectAtIndex:cellIndexPath.row];
+        }
+        else{
+            movedObject = weakSelf.archivedEntries[cellIndexPath.row];
+            [weakSelf.archivedEntries removeObjectAtIndex:cellIndexPath.row];
+        }
+        
+        [weakSelf.tableView deleteRowsAtIndexPaths:@[cellIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+        
+        if (cellIndexPath.section == FWTExampleTableViewUnarchivedSection){
+            [weakSelf.archivedEntries addObject:movedObject];
+        }
+        else{
+            [weakSelf.unarchivedEntries addObject:movedObject];
+        }
+        
+        [weakSelf.tableView reloadData];
+    };
+    
+    return secondaryActionBlock;
 }
 
 - (FWTSwipeCellOnButtonCreationBlock)_swipeCellPrimaryButtonConfigurationBlockForRowAtIndexPath:(NSIndexPath*)indexPath
