@@ -164,6 +164,8 @@ typedef enum{
         cell = [[FWTSwipeCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellIdentifier];
         [cell setDelegate:self];
         [cell setSelectionBlock:[self _swipeCellSelectionBlock]];
+        [cell setPrimaryActionBlock:[self _swipeCellPrimaryActionBlock]];
+        [cell setSecondaryActionBlock:[self _swipeCellSecondaryActionBlock]];
     }
     
     [cell.textLabel setText:[cellObject dateTime]];
@@ -225,6 +227,58 @@ typedef enum{
     };
     
     return selectionBlock;
+}
+
+- (FWTSwipeCellPrimaryActionBlock)_swipeCellPrimaryActionBlock
+{
+    __weak FWTExampleTableViewController *weakSelf = self;
+    
+    FWTSwipeCellPrimaryActionBlock primaryActionBlock = ^(FWTSwipeCell *cell){
+        NSIndexPath *cellIndexPath = [weakSelf.tableView indexPathForCell:cell];
+    
+        if (cellIndexPath.section == FWTExampleTableViewUnarchivedSection){
+            [weakSelf.unarchivedEntries removeObjectAtIndex:cellIndexPath.row];
+        }
+        else{
+            [weakSelf.archivedEntries removeObjectAtIndex:cellIndexPath.row];
+        }
+        
+        [weakSelf.tableView deleteRowsAtIndexPaths:@[cellIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    };
+    
+    return primaryActionBlock;
+}
+
+- (FWTSwipeCellSecondaryActionBlock)_swipeCellSecondaryActionBlock
+{
+    __weak FWTExampleTableViewController *weakSelf = self;
+    
+    FWTSwipeCellSecondaryActionBlock secondaryActionBlock = ^(FWTSwipeCell *cell){
+        NSIndexPath *cellIndexPath = [weakSelf.tableView indexPathForCell:cell];
+        
+        id movedObject;
+        if (cellIndexPath.section == FWTExampleTableViewUnarchivedSection){
+            movedObject = weakSelf.unarchivedEntries[cellIndexPath.row];
+            [weakSelf.unarchivedEntries removeObjectAtIndex:cellIndexPath.row];
+        }
+        else{
+            movedObject = weakSelf.archivedEntries[cellIndexPath.row];
+            [weakSelf.archivedEntries removeObjectAtIndex:cellIndexPath.row];
+        }
+        
+        [weakSelf.tableView deleteRowsAtIndexPaths:@[cellIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+        
+        if (cellIndexPath.section == FWTExampleTableViewUnarchivedSection){
+            [weakSelf.archivedEntries addObject:movedObject];
+        }
+        else{
+            [weakSelf.unarchivedEntries addObject:movedObject];
+        }
+        
+        [weakSelf.tableView reloadData];
+    };
+    
+    return secondaryActionBlock;
 }
 
 - (FWTSwipeCellOnButtonCreationBlock)_swipeCellPrimaryButtonConfigurationBlockForRowAtIndexPath:(NSIndexPath*)indexPath
