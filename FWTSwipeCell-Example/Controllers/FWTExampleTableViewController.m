@@ -163,6 +163,7 @@ typedef enum{
     if (cell == nil){
         cell = [[FWTSwipeCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellIdentifier];
         [cell setDelegate:self];
+        [cell setSelectionBlock:[self _swipeCellSelectionBlock]];
     }
     
     [cell.textLabel setText:[cellObject dateTime]];
@@ -174,6 +175,12 @@ typedef enum{
                           isPrimaryActionButton:NO];
     
     return cell;
+}
+
+#pragma mark - UITableViewDelegate methods
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSLog(@"Row selected");
 }
 
 #pragma mark - FWTSwipeCellDelegate methods
@@ -201,6 +208,23 @@ typedef enum{
     }
     
     return self->_archivedEntries;
+}
+
+- (FWTSwipeCellSelectionBlock)_swipeCellSelectionBlock
+{
+    __weak FWTExampleTableViewController *weakSelf = self;
+    
+    FWTSwipeCellSelectionBlock selectionBlock = ^(FWTSwipeCell *cell){
+        NSIndexPath *selectedIndexPath = [weakSelf.tableView indexPathForCell:cell];
+        if (!cell.selected && [weakSelf respondsToSelector:@selector(tableView:didSelectRowAtIndexPath:)]){
+            [weakSelf tableView:weakSelf.tableView didSelectRowAtIndexPath:selectedIndexPath];
+        }
+        else if (cell.selected && [weakSelf respondsToSelector:@selector(tableView:didDeselectRowAtIndexPath:)]){
+            [weakSelf tableView:weakSelf.tableView didDeselectRowAtIndexPath:selectedIndexPath];
+        }
+    };
+    
+    return selectionBlock;
 }
 
 - (FWTSwipeCellOnButtonCreationBlock)_swipeCellPrimaryButtonConfigurationBlockForRowAtIndexPath:(NSIndexPath*)indexPath
