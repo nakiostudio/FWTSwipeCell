@@ -7,6 +7,7 @@
 //
 
 #import "FWTExampleTableViewController.h"
+#import "FWTWebViewController.h"
 #import "FWTSwipeCell.h"
 
 @interface FWTExampleObject : NSObject
@@ -113,6 +114,13 @@ typedef enum{
     return cellObject;
 }
 
+- (void)_presentWebViewController
+{
+    FWTWebViewController *webViewController = [[FWTWebViewController alloc] init];
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:webViewController];
+    [self presentViewController:navigationController animated:YES completion:nil];
+}
+
 #pragma mark - UITableViewDataSource methods
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -179,18 +187,6 @@ typedef enum{
     return cell;
 }
 
-#pragma mark - UITableViewDelegate methods
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    NSLog(@"Row selected");
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-}
-
-- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    
-}
-
 #pragma mark - FWTSwipeCellDelegate methods
 - (void)swipeCellWillBeginDragging:(FWTSwipeCell *)cell
 {
@@ -226,6 +222,7 @@ typedef enum{
         NSIndexPath *selectedIndexPath = [weakSelf.tableView indexPathForCell:cell];
         if (!cell.selected){
             [weakSelf.tableView selectRowAtIndexPath:selectedIndexPath animated:YES scrollPosition:UITableViewScrollPositionNone];
+            [weakSelf _presentWebViewController];
         }
         else if (cell.selected){
             [weakSelf.tableView deselectRowAtIndexPath:selectedIndexPath animated:YES];

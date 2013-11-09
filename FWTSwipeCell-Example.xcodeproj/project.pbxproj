@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C159AEB5182EDAA300DDC24B /* FWTWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C159AEB4182EDAA300DDC24B /* FWTWebViewController.m */; };
 		C1A39C5C182843B00053D94A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1A39C5B182843B00053D94A /* Foundation.framework */; };
 		C1A39C5E182843B00053D94A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1A39C5D182843B00053D94A /* CoreGraphics.framework */; };
 		C1A39C60182843B00053D94A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1A39C5F182843B00053D94A /* UIKit.framework */; };
@@ -34,6 +35,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C159AEB3182EDAA300DDC24B /* FWTWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FWTWebViewController.h; path = Controllers/FWTWebViewController.h; sourceTree = "<group>"; };
+		C159AEB4182EDAA300DDC24B /* FWTWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FWTWebViewController.m; path = Controllers/FWTWebViewController.m; sourceTree = "<group>"; };
 		C1A39C58182843B00053D94A /* FWTSwipeCell-Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "FWTSwipeCell-Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1A39C5B182843B00053D94A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C1A39C5D182843B00053D94A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -158,6 +161,8 @@
 			children = (
 				C1A39C8B182843ED0053D94A /* FWTExampleTableViewController.h */,
 				C1A39C8C182843ED0053D94A /* FWTExampleTableViewController.m */,
+				C159AEB3182EDAA300DDC24B /* FWTWebViewController.h */,
+				C159AEB4182EDAA300DDC24B /* FWTWebViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -258,6 +263,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C159AEB5182EDAA300DDC24B /* FWTWebViewController.m in Sources */,
 				C1A39C6C182843B00053D94A /* FWTAppDelegate.m in Sources */,
 				C1A39C8D182843ED0053D94A /* FWTExampleTableViewController.m in Sources */,
 				C1A39C90182844370053D94A /* FWTSwipeCell.m in Sources */,
@@ -338,6 +344,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "53ED05E8-DADD-4ED3-95EC-6D9803A458AE";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -370,6 +377,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				PROVISIONING_PROFILE = "53ED05E8-DADD-4ED3-95EC-6D9803A458AE";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -462,6 +470,7 @@
 				C1A39C86182843B00053D94A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		C1A39C87182843B00053D94A /* Build configuration list for PBXNativeTarget "FWTSwipeCell-ExampleTests" */ = {
 			isa = XCConfigurationList;
@@ -470,6 +479,7 @@
 				C1A39C89182843B00053D94A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
