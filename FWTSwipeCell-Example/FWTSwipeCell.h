@@ -28,8 +28,8 @@ typedef UIButton * (^FWTSwipeCellOnButtonCreationBlock)(UIButton *inputButton);
 
 - (id)initWithStyle:(UITableViewCellStyle)style
     reuseIdentifier:(NSString *)reuseIdentifier
-      creationBlock:(FWTSwipeCellOnButtonCreationBlock)primaryButtonCreationBlock
-secondaryCreationBlock:(FWTSwipeCellOnButtonCreationBlock)secondaryButtonCreationBlock;
+priButtonCreationBlock:(FWTSwipeCellOnButtonCreationBlock)primaryButtonCreationBlock
+secButtonCreationBlock:(FWTSwipeCellOnButtonCreationBlock)secondaryButtonCreationBlock;
 
 - (void)restoreContentScrollViewOffset;
 

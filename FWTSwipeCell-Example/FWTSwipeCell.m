@@ -33,7 +33,10 @@ NSString *const kSecondaryActionButtonDefaultLabel      =       @"Archive";
 
 @implementation FWTSwipeCell
 
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+- (id)initWithStyle:(UITableViewCellStyle)style
+    reuseIdentifier:(NSString *)reuseIdentifier
+priButtonCreationBlock:(FWTSwipeCellOnButtonCreationBlock)primaryButtonCreationBlock
+secButtonCreationBlock:(FWTSwipeCellOnButtonCreationBlock)secondaryButtonCreationBlock
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self){
@@ -221,7 +224,7 @@ NSString *const kSecondaryActionButtonDefaultLabel      =       @"Archive";
 
 - (UIButton*)primaryActionButton
 {
-    if (self->_primaryActionButton == nil){
+    if (self->_primaryActionButton == nil && self.primaryButtonCreationBlock == nil){
         self->_primaryActionButton = [UIButton buttonWithType:UIButtonTypeCustom];
         self->_primaryActionButton.backgroundColor = [UIColor redColor];
         self->_primaryActionButton.frame = CGRectMake(kOptionsWidth*0.5f, 0, kOptionsWidth*0.5f, self.frame.size.height);
@@ -229,6 +232,9 @@ NSString *const kSecondaryActionButtonDefaultLabel      =       @"Archive";
         [self->_primaryActionButton setTitle:kPrimaryActionButtonDefaultLabel forState:UIControlStateNormal];
         [self->_primaryActionButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [self->_primaryActionButton addTarget:self action:@selector(_primaryActionButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    else if (self->_primaryActionButton == nil && self.primaryButtonCreationBlock != nil){
+        self->_primaryActionButton = self.primaryButtonCreationBlock(nil);
     }
     
     if (self->_primaryActionButton.superview == nil){
@@ -248,6 +254,9 @@ NSString *const kSecondaryActionButtonDefaultLabel      =       @"Archive";
         [self->_secondaryActionButton setTitle:kSecondaryActionButtonDefaultLabel forState:UIControlStateNormal];
         [self->_secondaryActionButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [self->_secondaryActionButton addTarget:self action:@selector(_secondaryActionButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    else if (self->_secondaryActionButton == nil && self.secondaryButtonCreationBlock != nil){
+        self->_secondaryActionButton = self.secondaryButtonCreationBlock(nil);
     }
     
     if (self->_secondaryActionButton.superview == nil){
