@@ -167,8 +167,10 @@ typedef enum{
     [cell.textLabel setText:[cellObject dateTime]];
     [cell.detailTextLabel setText:[cellObject dateDay]];
     
-    [cell configureButtonWithCustomizationBlock:[self _swipeCellPrimaryButtonConfigurationBlock] isPrimaryActionButton:YES];
-    [cell configureButtonWithCustomizationBlock:[self _swipeCellSecondaryButtonConfigurationBlock] isPrimaryActionButton:NO];
+    [cell configureButtonWithCustomizationBlock:[self _swipeCellPrimaryButtonConfigurationBlockForRowAtIndexPath:indexPath]
+                          isPrimaryActionButton:YES];
+    [cell configureButtonWithCustomizationBlock:[self _swipeCellSecondaryButtonConfigurationBlockForRowAtIndexPath:indexPath]
+                          isPrimaryActionButton:NO];
     
     return cell;
 }
@@ -192,7 +194,7 @@ typedef enum{
     return self->_archivedEntries;
 }
 
-- (FWTSwipeCellOnButtonCreationBlock)_swipeCellPrimaryButtonConfigurationBlock
+- (FWTSwipeCellOnButtonCreationBlock)_swipeCellPrimaryButtonConfigurationBlockForRowAtIndexPath:(NSIndexPath*)indexPath
 {
     FWTSwipeCellOnButtonCreationBlock configurationBlock = ^UIButton *(UIButton *inputButton){
         [inputButton setImage:[UIImage imageNamed:@"fwt_ic_delete"] forState:UIControlStateNormal];
@@ -203,10 +205,11 @@ typedef enum{
     return configurationBlock;
 }
 
-- (FWTSwipeCellOnButtonCreationBlock)_swipeCellSecondaryButtonConfigurationBlock
+- (FWTSwipeCellOnButtonCreationBlock)_swipeCellSecondaryButtonConfigurationBlockForRowAtIndexPath:(NSIndexPath*)indexPath
 {
     FWTSwipeCellOnButtonCreationBlock configurationBlock = ^UIButton *(UIButton *inputButton){
-        [inputButton setImage:[UIImage imageNamed:@"fwt_ic_archive"] forState:UIControlStateNormal];
+        NSString *buttonIconName = (indexPath.section == FWTExampleTableViewUnarchivedSection ? @"fwt_ic_archive" : @"fwt_ic_unarchive");
+        [inputButton setImage:[UIImage imageNamed:buttonIconName] forState:UIControlStateNormal];
         [inputButton setTitle:@"" forState:UIControlStateNormal];
         return inputButton;
     };
