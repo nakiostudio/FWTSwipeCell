@@ -93,6 +93,7 @@ typedef enum{
     
     [self.unarchivedEntries addObject:exampleObject];
     
+    [self _restoreAllVisibleCellsPreservingStateForCell:nil];
     [self.tableView reloadData];
 }
 
@@ -119,6 +120,15 @@ typedef enum{
     FWTWebViewController *webViewController = [[FWTWebViewController alloc] init];
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:webViewController];
     [self presentViewController:navigationController animated:YES completion:nil];
+}
+
+- (void)_restoreAllVisibleCellsPreservingStateForCell:(UITableViewCell*)cell
+{
+    for (FWTSwipeCell *cell in self.tableView.visibleCells){
+        if ([cell isEqual:cell]){
+            [cell restoreContentScrollViewOffset];
+        }
+    }
 }
 
 #pragma mark - UITableViewDataSource methods
@@ -187,12 +197,16 @@ typedef enum{
     return cell;
 }
 
+#pragma mark - UIScrollViewDelegate methods
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    [self _restoreAllVisibleCellsPreservingStateForCell:nil];
+}
+
 #pragma mark - FWTSwipeCellDelegate methods
 - (void)swipeCellWillBeginDragging:(FWTSwipeCell *)cell
 {
-    NSIndexPath *swipingCellIndexPath = [self.tableView indexPathForCell:cell];
-    
-    NSLog(@"Swiping cell at row %i in section %i", swipingCellIndexPath.row, swipingCellIndexPath.section);
+    [self _restoreAllVisibleCellsPreservingStateForCell:cell];
 }
 
 #pragma mark - Lazy loading
