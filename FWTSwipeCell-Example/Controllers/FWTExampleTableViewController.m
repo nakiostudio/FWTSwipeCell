@@ -39,12 +39,12 @@
 
 
 
-NSString *kNavigationBarTitleText       =       @"FWTSwipeCell Example";
-NSString *kUnarchiveSectionTitle        =       @"Unarchived";
-NSString *kArchiveSectionTitle          =       @"Archived";
+NSString * const kNavigationBarTitleText        =       @"FWTSwipeCell Example";
+NSString * const kUnarchiveSectionTitle         =       @"Unarchived";
+NSString * const kArchiveSectionTitle           =       @"Archived";
 
-CGFloat kSectionHeaderHeight            =       30.f;
-CGFloat kRowHeight                      =       52.f;
+CGFloat const kSectionHeaderHeight              =       30.f;
+CGFloat const kRowHeight                        =       52.f;
 
 typedef enum{
     FWTExampleTableViewUnarchivedSection = 0,
@@ -52,7 +52,7 @@ typedef enum{
     FWTExampleTableViewSectionCount
 } FWTExampleTableViewSection;
 
-@interface FWTExampleTableViewController ()
+@interface FWTExampleTableViewController () <FWTSwipeCellDelegate>
 
 @property (nonatomic, strong) NSMutableArray *unarchivedEntries;
 @property (nonatomic, strong) NSMutableArray *archivedEntries;
@@ -145,7 +145,7 @@ typedef enum{
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return ([self tableView:tableView numberOfRowsInSection:section] > 0 ? 30.f : 0.f);
+    return ([self tableView:tableView numberOfRowsInSection:section] > 0 ? kSectionHeaderHeight : 0.f);
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -158,16 +158,30 @@ typedef enum{
     FWTExampleObject *cellObject = [self _objectForRowAtIndexPath:indexPath];
     
     NSString *cellIdentifier = NSStringFromClass([FWTSwipeCell class]);
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    FWTSwipeCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     
     if (cell == nil){
         cell = [[FWTSwipeCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellIdentifier];
+        [cell setDelegate:self];
     }
     
-    cell.textLabel.text = [cellObject dateTime];
-    cell.detailTextLabel.text = [cellObject dateDay];
+    [cell.textLabel setText:[cellObject dateTime]];
+    [cell.detailTextLabel setText:[cellObject dateDay]];
+    
+    [cell configureButtonWithCustomizationBlock:[self _swipeCellPrimaryButtonConfigurationBlockForRowAtIndexPath:indexPath]
+                          isPrimaryActionButton:YES];
+    [cell configureButtonWithCustomizationBlock:[self _swipeCellSecondaryButtonConfigurationBlockForRowAtIndexPath:indexPath]
+                          isPrimaryActionButton:NO];
     
     return cell;
+}
+
+#pragma mark - FWTSwipeCellDelegate methods
+- (void)swipeCellWillBeginDragging:(FWTSwipeCell *)cell
+{
+    NSIndexPath *swipingCellIndexPath = [self.tableView indexPathForCell:cell];
+    
+    NSLog(@"Swiping cell at row %i in section %i", swipingCellIndexPath.row, swipingCellIndexPath.section);
 }
 
 #pragma mark - Lazy loading
@@ -187,6 +201,29 @@ typedef enum{
     }
     
     return self->_archivedEntries;
+}
+
+- (FWTSwipeCellOnButtonCreationBlock)_swipeCellPrimaryButtonConfigurationBlockForRowAtIndexPath:(NSIndexPath*)indexPath
+{
+    FWTSwipeCellOnButtonCreationBlock configurationBlock = ^UIButton *(UIButton *inputButton){
+        [inputButton setImage:[UIImage imageNamed:@"fwt_ic_delete"] forState:UIControlStateNormal];
+        [inputButton setTitle:@"" forState:UIControlStateNormal];
+        return inputButton;
+    };
+    
+    return configurationBlock;
+}
+
+- (FWTSwipeCellOnButtonCreationBlock)_swipeCellSecondaryButtonConfigurationBlockForRowAtIndexPath:(NSIndexPath*)indexPath
+{
+    FWTSwipeCellOnButtonCreationBlock configurationBlock = ^UIButton *(UIButton *inputButton){
+        NSString *buttonIconName = (indexPath.section == FWTExampleTableViewUnarchivedSection ? @"fwt_ic_archive" : @"fwt_ic_unarchive");
+        [inputButton setImage:[UIImage imageNamed:buttonIconName] forState:UIControlStateNormal];
+        [inputButton setTitle:@"" forState:UIControlStateNormal];
+        return inputButton;
+    };
+    
+    return configurationBlock;
 }
 
 @end

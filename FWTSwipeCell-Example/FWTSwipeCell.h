@@ -10,20 +10,35 @@
 
 @class FWTSwipeCell;
 
-typedef enum {
-    FWTSwipeCellActionSelectRow = 0,
-    FWTSwipeCellActionAdditionalRow,
-    FWTSwipeCellActionDeleteRow,
-    FWTSwipeCellActionWillBeginDragging
-}FWTSwipeCellActions;
+@protocol FWTSwipeCellDelegate;
 
-typedef void (^FWTSwipeCellActionBlock)(FWTSwipeCell *cell, FWTSwipeCellActions action);
+typedef void (^FWTSwipeCellSelectionBlock)(FWTSwipeCell *cell);
+typedef void (^FWTSwipeCellPrimaryActionBlock)(FWTSwipeCell *cell);
+typedef void (^FWTSwipeCellSecondaryActionBlock)(FWTSwipeCell *cell);
+
+typedef UIButton * (^FWTSwipeCellOnButtonCreationBlock)(UIButton *inputButton);
 
 @interface FWTSwipeCell : UITableViewCell
 
-@property (nonatomic, strong) UIButton *additionalButton;
-@property (nonatomic, strong) FWTSwipeCellActionBlock actionBlock;
+@property (nonatomic, strong) FWTSwipeCellSelectionBlock selectionBlock;
+@property (nonatomic, strong) FWTSwipeCellPrimaryActionBlock primaryActionBlock;
+@property (nonatomic, strong) FWTSwipeCellSecondaryActionBlock secondaryActionBlock;
 
-- (void)restoreScroll;
+@property (nonatomic, weak) id<FWTSwipeCellDelegate> delegate;
+
+- (id)initWithStyle:(UITableViewCellStyle)style
+    reuseIdentifier:(NSString *)reuseIdentifier
+priButtonCreationBlock:(FWTSwipeCellOnButtonCreationBlock)primaryButtonCreationBlock
+secButtonCreationBlock:(FWTSwipeCellOnButtonCreationBlock)secondaryButtonCreationBlock;
+
+- (void)restoreContentScrollViewOffset;
+- (void)configureButtonWithCustomizationBlock:(FWTSwipeCellOnButtonCreationBlock)customizationBlock
+                        isPrimaryActionButton:(BOOL)configurePrimaryActionButton;
+
+@end
+
+@protocol FWTSwipeCellDelegate
+
+- (void)swipeCellWillBeginDragging:(FWTSwipeCell*)cell;
 
 @end
