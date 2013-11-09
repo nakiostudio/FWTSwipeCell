@@ -39,7 +39,7 @@
 
 
 
-NSString * const kNavigationBarTitleText        =       @"FWTSwipeCell Example";
+NSString * const kNavigationBarTitleText        =       @"FWTSwipeCell";
 NSString * const kUnarchiveSectionTitle         =       @"Unarchived";
 NSString * const kArchiveSectionTitle           =       @"Archived";
 
@@ -219,10 +219,10 @@ typedef enum{
     FWTSwipeCellSelectionBlock selectionBlock = ^(FWTSwipeCell *cell){
         NSIndexPath *selectedIndexPath = [weakSelf.tableView indexPathForCell:cell];
         if (!cell.selected && [weakSelf respondsToSelector:@selector(tableView:didSelectRowAtIndexPath:)]){
-            [weakSelf tableView:weakSelf.tableView didSelectRowAtIndexPath:selectedIndexPath];
+            [weakSelf.tableView selectRowAtIndexPath:selectedIndexPath animated:YES scrollPosition:UITableViewScrollPositionNone];
         }
         else if (cell.selected && [weakSelf respondsToSelector:@selector(tableView:didDeselectRowAtIndexPath:)]){
-            [weakSelf tableView:weakSelf.tableView didDeselectRowAtIndexPath:selectedIndexPath];
+            [weakSelf.tableView deselectRowAtIndexPath:selectedIndexPath animated:YES];
         }
     };
     
