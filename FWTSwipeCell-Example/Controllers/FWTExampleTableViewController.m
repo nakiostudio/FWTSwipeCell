@@ -58,6 +58,8 @@ typedef enum{
 @property (nonatomic, strong) NSMutableArray *unarchivedEntries;
 @property (nonatomic, strong) NSMutableArray *archivedEntries;
 
+@property (nonatomic, strong) UIImageView *logoImageView;
+
 @end
 
 @implementation FWTExampleTableViewController
@@ -83,6 +85,7 @@ typedef enum{
 
 - (void)_setupTableView
 {
+    [self.logoImageView setAlpha:0.4];
     [self.tableView setTableFooterView:[[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 1)]];
 }
 
@@ -203,6 +206,12 @@ typedef enum{
     [self _restoreAllVisibleCellsPreservingStateForCell:nil];
 }
 
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    CGFloat factor = -(scrollView.contentOffset.y + 80.f)*0.01f;
+    self.logoImageView.alpha = factor;
+}
+
 #pragma mark - FWTSwipeCellDelegate methods
 - (void)swipeCellWillBeginDragging:(FWTSwipeCell *)cell
 {
@@ -319,6 +328,20 @@ typedef enum{
     };
     
     return configurationBlock;
+}
+
+- (UIImageView*)logoImageView
+{
+    if (self->_logoImageView == nil){
+        self->_logoImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"fwt_logo"]];
+        self->_logoImageView.center = CGPointMake(self.tableView.center.x, -self->_logoImageView.image.size.height);
+    }
+    
+    if (self->_logoImageView.superview == nil){
+        [self.tableView addSubview:self->_logoImageView];
+    }
+    
+    return self->_logoImageView;
 }
 
 @end
