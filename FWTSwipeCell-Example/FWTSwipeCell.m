@@ -190,13 +190,49 @@ secButtonCreationBlock:(FWTSwipeCellOnButtonCreationBlock)secondaryButtonCreatio
     }
 }
 
--(void)scrollViewDidScroll:(UIScrollView *)scrollView
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
+    if (self.primaryActionButton.imageView.image != nil){
+        CGFloat primaryButtonScaleFactor = [self _primaryButtonScaleFactorWithContentOffset:scrollView.contentOffset];
+        [self.primaryActionButton setImageEdgeInsets:UIEdgeInsetsMake(CGRectGetHeight(self.primaryActionButton.frame)*0.8f*primaryButtonScaleFactor,
+                                                                      CGRectGetWidth(self.primaryActionButton.frame)*0.8f*primaryButtonScaleFactor,
+                                                                      CGRectGetHeight(self.primaryActionButton.frame)*0.8f*primaryButtonScaleFactor,
+                                                                      CGRectGetWidth(self.primaryActionButton.frame)*0.8f*primaryButtonScaleFactor)];
+    }
+    
+    if (self.secondaryActionButton.imageView.image != nil){
+        CGFloat secondaryButtonScaleFactor = [self _secondaryButtonScaleFactorWithContentOffset:scrollView.contentOffset];
+        [self.secondaryActionButton setImageEdgeInsets:UIEdgeInsetsMake(CGRectGetHeight(self.secondaryActionButton.frame)*0.8f*secondaryButtonScaleFactor,
+                                                                      CGRectGetWidth(self.secondaryActionButton.frame)*0.8f*secondaryButtonScaleFactor,
+                                                                      CGRectGetHeight(self.secondaryActionButton.frame)*0.8f*secondaryButtonScaleFactor,
+                                                                      CGRectGetWidth(self.secondaryActionButton.frame)*0.8f*secondaryButtonScaleFactor)];
+    }
+    
     if (scrollView.contentOffset.x < 0) {
         scrollView.contentOffset = CGPointZero;
     }
     
     self.scrollViewButtonView.frame = CGRectMake(scrollView.contentOffset.x + (self.frame.size.width - kOptionsWidth), 0.0f, kOptionsWidth, self.frame.size.height);
+}
+
+- (CGFloat)_primaryButtonScaleFactorWithContentOffset:(CGPoint)contentOffset
+{
+    CGFloat xOffset = contentOffset.x;
+    xOffset = (xOffset == 0 ? 1 : xOffset);
+    
+    CGFloat maxValue = self.primaryActionButton.frame.size.width;
+    CGFloat scaleFactor = 1 - (xOffset / maxValue);
+    return (scaleFactor < 0 ? 0 : scaleFactor);
+}
+
+- (CGFloat)_secondaryButtonScaleFactorWithContentOffset:(CGPoint)contentOffset
+{
+    CGFloat xOffset = contentOffset.x - self.primaryActionButton.frame.size.width;
+    xOffset = (xOffset == 0 ? 1 : xOffset);
+    
+    CGFloat maxValue = self.primaryActionButton.frame.size.width;
+    CGFloat scaleFactor = 1 - (xOffset / maxValue);
+    return (scaleFactor < 0 ? 0 : scaleFactor);
 }
 
 #pragma mark - Lazy loading
