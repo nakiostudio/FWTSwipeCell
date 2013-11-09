@@ -183,6 +183,12 @@ typedef enum{
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSLog(@"Row selected");
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
 }
 
 #pragma mark - FWTSwipeCellDelegate methods
@@ -218,10 +224,10 @@ typedef enum{
     
     FWTSwipeCellSelectionBlock selectionBlock = ^(FWTSwipeCell *cell){
         NSIndexPath *selectedIndexPath = [weakSelf.tableView indexPathForCell:cell];
-        if (!cell.selected && [weakSelf respondsToSelector:@selector(tableView:didSelectRowAtIndexPath:)]){
+        if (!cell.selected){
             [weakSelf.tableView selectRowAtIndexPath:selectedIndexPath animated:YES scrollPosition:UITableViewScrollPositionNone];
         }
-        else if (cell.selected && [weakSelf respondsToSelector:@selector(tableView:didDeselectRowAtIndexPath:)]){
+        else if (cell.selected){
             [weakSelf.tableView deselectRowAtIndexPath:selectedIndexPath animated:YES];
         }
     };

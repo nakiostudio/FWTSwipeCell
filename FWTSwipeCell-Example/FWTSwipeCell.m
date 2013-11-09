@@ -253,15 +253,12 @@ secButtonCreationBlock:(FWTSwipeCellOnButtonCreationBlock)secondaryButtonCreatio
     }
     
     if (self->_scrollView.superview == nil){
-        
         [self.contentView removeFromSuperview];
         [self.contentView setBackgroundColor:[UIColor whiteColor]];
         UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(_contentTapped:)];
         [self.contentView addGestureRecognizer:tapGestureRecognizer];
         
-        
         [self->_scrollView addSubview:self.contentView];
-        
         [self addSubview:self->_scrollView];
     }
     
