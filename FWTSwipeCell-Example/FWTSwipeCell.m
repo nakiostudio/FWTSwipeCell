@@ -110,6 +110,19 @@ secButtonCreationBlock:(FWTSwipeCellOnButtonCreationBlock)secondaryButtonCreatio
     [self.scrollView setContentOffset:CGPointZero animated:YES];
 }
 
+- (void)configureButtonWithCustomizationBlock:(FWTSwipeCellOnButtonCreationBlock)customizationBlock
+                        isPrimaryActionButton:(BOOL)configurePrimaryActionButton
+{
+    if (customizationBlock != nil){
+        UIButton *button = (configurePrimaryActionButton ? self.primaryActionButton : self.secondaryActionButton);
+        button = customizationBlock(button);
+        [self setNeedsDisplay];
+    }
+    else{
+        NSLog(@"FWTSwipeCellOnButtonCreationBlock argument cannot be nil");
+    }
+}
+
 #pragma mark - Private Methods
 -(void)_primaryActionButtonTapped:(id)sender
 {

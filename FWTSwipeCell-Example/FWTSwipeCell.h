@@ -32,6 +32,8 @@ priButtonCreationBlock:(FWTSwipeCellOnButtonCreationBlock)primaryButtonCreationB
 secButtonCreationBlock:(FWTSwipeCellOnButtonCreationBlock)secondaryButtonCreationBlock;
 
 - (void)restoreContentScrollViewOffset;
+- (void)configureButtonWithCustomizationBlock:(FWTSwipeCellOnButtonCreationBlock)customizationBlock
+                        isPrimaryActionButton:(BOOL)configurePrimaryActionButton;
 
 @end
 
