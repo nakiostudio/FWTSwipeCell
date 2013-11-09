@@ -19,6 +19,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [self _configureBarButtonItemsAppearance];
+    
     FWTExampleTableViewController *exampleTableViewController = [[FWTExampleTableViewController alloc] init];
     self.rootNavigationController = [[UINavigationController alloc] initWithRootViewController:exampleTableViewController];
     
@@ -28,6 +30,11 @@
     [self.window makeKeyAndVisible];
     
     return YES;
+}
+
+- (void)_configureBarButtonItemsAppearance
+{
+    [[UIBarButtonItem appearance] setTintColor:[UIColor colorWithRed:183.f/255 green:16.f/255 blue:21.f/155 alpha:1.f]];
 }
 
 @end
