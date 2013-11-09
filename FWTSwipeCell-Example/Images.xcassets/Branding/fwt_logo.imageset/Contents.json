@@ -3,12 +3,12 @@
     {
       "idiom" : "universal",
       "scale" : "1x",
-      "filename" : "fwt_logo_large.png"
+      "filename" : "fwt_logo.png"
     },
     {
       "idiom" : "universal",
       "scale" : "2x",
-      "filename" : "fwt_logo_large@2x.png"
+      "filename" : "fwt_logo@2x.png"
     }
   ],
   "info" : {
