@@ -115,7 +115,11 @@ secButtonCreationBlock:(FWTSwipeCellOnButtonCreationBlock)secondaryButtonCreatio
 {
     if (customizationBlock != nil){
         UIButton *button = (configurePrimaryActionButton ? self.primaryActionButton : self.secondaryActionButton);
+        SEL buttonSelector = (configurePrimaryActionButton ? @selector(_primaryActionButtonTapped:) : @selector(_secondaryActionButtonTapped:));
+        
         button = customizationBlock(button);
+        [button addTarget:self action:buttonSelector forControlEvents:UIControlEventTouchUpInside];
+        
         [self setNeedsDisplay];
     }
     else{
@@ -248,6 +252,7 @@ secButtonCreationBlock:(FWTSwipeCellOnButtonCreationBlock)secondaryButtonCreatio
     }
     else if (self->_primaryActionButton == nil && self.primaryButtonCreationBlock != nil){
         self->_primaryActionButton = self.primaryButtonCreationBlock(nil);
+        [self->_primaryActionButton addTarget:self action:@selector(_primaryActionButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     }
     
     if (self->_primaryActionButton.superview == nil){
@@ -270,6 +275,7 @@ secButtonCreationBlock:(FWTSwipeCellOnButtonCreationBlock)secondaryButtonCreatio
     }
     else if (self->_secondaryActionButton == nil && self.secondaryButtonCreationBlock != nil){
         self->_secondaryActionButton = self.secondaryButtonCreationBlock(nil);
+        [self->_secondaryActionButton addTarget:self action:@selector(_secondaryActionButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     }
     
     if (self->_secondaryActionButton.superview == nil){
