@@ -37,7 +37,7 @@
 /* Begin PBXFileReference section */
 		C159AEB3182EDAA300DDC24B /* FWTWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FWTWebViewController.h; path = Controllers/FWTWebViewController.h; sourceTree = "<group>"; };
 		C159AEB4182EDAA300DDC24B /* FWTWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FWTWebViewController.m; path = Controllers/FWTWebViewController.m; sourceTree = "<group>"; };
-		C1A39C58182843B00053D94A /* FWTSwipeCell-Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "FWTSwipeCell-Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C1A39C58182843B00053D94A /* FWT SwipeCell.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "FWT SwipeCell.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1A39C5B182843B00053D94A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C1A39C5D182843B00053D94A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		C1A39C5F182843B00053D94A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -96,7 +96,7 @@
 		C1A39C59182843B00053D94A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C1A39C58182843B00053D94A /* FWTSwipeCell-Example.app */,
+				C1A39C58182843B00053D94A /* FWT SwipeCell.app */,
 				C1A39C73182843B00053D94A /* FWTSwipeCell-ExampleTests.xctest */,
 			);
 			name = Products;
@@ -184,7 +184,7 @@
 			);
 			name = "FWTSwipeCell-Example";
 			productName = "FWTSwipeCell-Example";
-			productReference = C1A39C58182843B00053D94A /* FWTSwipeCell-Example.app */;
+			productReference = C1A39C58182843B00053D94A /* FWT SwipeCell.app */;
 			productType = "com.apple.product-type.application";
 		};
 		C1A39C72182843B00053D94A /* FWTSwipeCell-ExampleTests */ = {
@@ -391,7 +391,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FWTSwipeCell-Example/FWTSwipeCell-Example-Prefix.pch";
 				INFOPLIST_FILE = "FWTSwipeCell-Example/FWTSwipeCell-Example-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "FWT SwipeCell";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -404,7 +404,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FWTSwipeCell-Example/FWTSwipeCell-Example-Prefix.pch";
 				INFOPLIST_FILE = "FWTSwipeCell-Example/FWTSwipeCell-Example-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "FWT SwipeCell";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
