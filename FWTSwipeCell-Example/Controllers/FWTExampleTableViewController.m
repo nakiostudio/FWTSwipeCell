@@ -52,7 +52,7 @@ typedef enum{
     FWTExampleTableViewSectionCount
 } FWTExampleTableViewSection;
 
-@interface FWTExampleTableViewController ()
+@interface FWTExampleTableViewController () <FWTSwipeCellDelegate>
 
 @property (nonatomic, strong) NSMutableArray *unarchivedEntries;
 @property (nonatomic, strong) NSMutableArray *archivedEntries;
@@ -162,6 +162,7 @@ typedef enum{
     
     if (cell == nil){
         cell = [[FWTSwipeCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellIdentifier];
+        [cell setDelegate:self];
     }
     
     [cell.textLabel setText:[cellObject dateTime]];
@@ -173,6 +174,14 @@ typedef enum{
                           isPrimaryActionButton:NO];
     
     return cell;
+}
+
+#pragma mark - FWTSwipeCellDelegate methods
+- (void)swipeCellWillBeginDragging:(FWTSwipeCell *)cell
+{
+    NSIndexPath *swipingCellIndexPath = [self.tableView indexPathForCell:cell];
+    
+    NSLog(@"Swiping cell at row %i in section %i", swipingCellIndexPath.row, swipingCellIndexPath.section);
 }
 
 #pragma mark - Lazy loading
