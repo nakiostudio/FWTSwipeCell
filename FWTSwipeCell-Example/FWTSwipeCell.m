@@ -65,14 +65,11 @@ secButtonCreationBlock:(FWTSwipeCellOnButtonCreationBlock)secondaryButtonCreatio
 {
     [super setSelected:selected animated:animated];
     
-    if (selected && !self.editing){
+    if (!self.editing){
         self.scrollViewButtonView.alpha = 0.f;
     }
-    else if (!selected && !self.editing){
-        self.scrollViewButtonView.alpha = 1.f;
-    }
     
-    void (^changes)(void) = ^void(void) {
+    void (^changes)(void) = ^void(void){
         if (selected && !self.editing){
             self.scrollViewButtonView.backgroundColor = [UIColor lightGrayColor];
             self.scrollView.scrollEnabled = NO;
@@ -91,8 +88,14 @@ secButtonCreationBlock:(FWTSwipeCellOnButtonCreationBlock)secondaryButtonCreatio
         }
     };
     
+    void (^completion)(BOOL finished) = ^void(BOOL finished){
+        if (!selected || self.editing){
+            self.scrollViewButtonView.alpha = 1.f;
+        }
+    };
+    
     if (animated) {
-        [UIView animateWithDuration:0.3f animations:changes];
+        [UIView animateWithDuration:0.3f animations:changes completion:completion];
     } else {
         changes();
     }
@@ -156,17 +159,20 @@ secButtonCreationBlock:(FWTSwipeCellOnButtonCreationBlock)secondaryButtonCreatio
 - (void)_contentTapped:(id)sender
 {
     if (self.selectionBlock){
+        [self setSelected:!self.selected animated:YES];
         self.selectionBlock(self);
     }
     else{
         NSLog(@"FWTSwipeCellSelectionBlock must be set");
     }
+    [self restoreContentScrollViewOffset];
 }
 
 #pragma mark - UIScrollViewDelegate Methods
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
     [self setSeparatorInset:UIEdgeInsetsZero];
+    [self.scrollViewButtonView setAlpha:1.f];
     
     if (self.delegate != nil){
         [self.delegate swipeCellWillBeginDragging:self];
